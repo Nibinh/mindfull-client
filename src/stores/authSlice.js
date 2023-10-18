@@ -16,7 +16,8 @@ const initialState = {
   logoutMsg: "",
 };
 
-const GET_USER_URL = `http://localhost:8000`;
+// const GET_USER_URL = `http://localhost:8000`;
+const GET_USER_URL = `https://mindfull-server.onrender.com`;
 
 export const login = createAsyncThunk("auths/login", async (values) => {
   try {
