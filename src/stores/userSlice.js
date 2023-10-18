@@ -14,8 +14,8 @@ const initialState = {
   editUserMsg: "",
 };
 
-// const GET_USER_URL = `http://localhost:8000`;
-const GET_USER_URL = `https://mindfull-server.onrender.com`;
+const GET_USER_URL = `http://localhost:8000`;
+// const GET_USER_URL = `https://mindfull-server.onrender.com`;
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
