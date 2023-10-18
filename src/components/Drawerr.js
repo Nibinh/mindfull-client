@@ -10,11 +10,27 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home";
+import { getAdminDetails } from "../stores/authSlice";
+import { useDispatch } from "react-redux";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useEffect } from "react";
+import { Grid } from "@mui/material";
+import Logout from "./Logout";
 
 function Drawerr() {
+  const dispatch = useDispatch();
   const [state, setState] = React.useState({
-    home: false,
+    left: false,
   });
+
+  const id = localStorage.getItem("userId");
+
+  useEffect(() => {
+    dispatch(getAdminDetails(id));
+  }, []);
+
+  const logD = useSelector((state) => state.auths.logfullDetails);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -29,43 +45,55 @@ function Drawerr() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 350,
+      }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem>
+          <ListItemButton>
+            <Grid>
+              <Grid sx={{ marginBottom: 2, fontSize: 30, fontWeight: 700 }}>
+                {logD.user?.name}
+              </Grid>
+              <Grid sx={{ marginBottom: 1, fontSize: 19 }}>
+                {logD.user?.email}
+              </Grid>
+              <Grid sx={{ marginBottom: 1, fontSize: 17 }}>
+                Phone : {logD.user?.phone}
+              </Grid>
+              <Grid sx={{ marginBottom: 1, fontSize: 17 }}>
+                Sate : {logD.user?.state}
+              </Grid>
+              <Grid sx={{ marginBottom: 1, fontSize: 17 }}>
+                City : {logD.user?.city}
+              </Grid>
+              <Grid sx={{ fontSize: 17 }}>Gender : {logD.user?.gender}</Grid>
+            </Grid>
+            <ListItemText />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem>
+          <Grid>
+            <Logout />
+          </Grid>
+        </ListItem>
       </List>
     </Box>
   );
   return (
     <div>
-      {["Home"].map((anchor) => (
+      {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button onClick={toggleDrawer(anchor, true)}>
+            Home <HomeIcon />
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

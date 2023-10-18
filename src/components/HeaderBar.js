@@ -18,7 +18,7 @@ function HeaderBar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               User Management
             </Typography>
-            {/* <Drawerr /> */}
+            <Drawerr />
             <Tooltip title="Add" placement="bottom-start">
               <Link to={"/adduser"}>
                 <Button variant="contained" color="success">
